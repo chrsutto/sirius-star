@@ -1,18 +1,6 @@
 {
   "version": 2,
   "name": "stablecoin-yield-aggregator",
-  "builds": [
-    {
-      "src": "stablecoin-yield-dashboard.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/stablecoin-yield-dashboard.html"
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -32,6 +20,15 @@
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=300, stale-while-revalidate"
         }
       ]
     }
