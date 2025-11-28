@@ -53,8 +53,8 @@ async function testAPIs() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     const data = await response.json();
-    const stablecoins = ['USDC', 'USDT', 'DAI', 'USDS', 'PYUSD', 'FRAX', 'LUSD', 'GUSD', 'USDC.e'];
-    const count = data.data?.vaultV2s?.items?.filter(v => v.totalAssetsUsd > 100000 && stablecoins.includes(v.asset.symbol)).length || 0;
+    // All Morpho vaults are curated, so include all with TVL > $100K
+    const count = data.data?.vaultV2s?.items?.filter(v => v.totalAssetsUsd > 100000).length || 0;
     
     results.morpho = { 
       status: 'success', 
@@ -98,10 +98,15 @@ async function testAPIs() {
     for (const chain of chains) {
       try {
         const data = await fetchWithRetry(`https://api-v2.pendle.finance/core/v1/${chain.id}/markets`);
-        const count = data.results?.filter(m => 
-          m.underlyingAsset.symbol.includes('USD') &&
-          m.totalActiveLiquidity > 100000
-        ).length || 0;
+        const count = data.results?.filter(m => {
+          const symbol = m.underlyingAsset?.symbol || m.pt?.symbol || '';
+          const hasUSD = symbol.toUpperCase().includes('USD') || 
+                         symbol.toUpperCase().includes('DAI') ||
+                         symbol.toUpperCase().includes('USDC') ||
+                         symbol.toUpperCase().includes('USDT');
+          const hasLiquidity = (m.totalActiveLiquidity || 0) > 10000;
+          return hasUSD && hasLiquidity;
+        }).length || 0;
         totalCount += count;
         chainResults[chain.name] = count;
       } catch (err) {

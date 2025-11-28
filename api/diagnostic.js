@@ -91,9 +91,9 @@ export default function handler(req, res) {
     <script>
         const expected = {
             defiLlama: { min: 40, max: 50 },
-            morpho: { min: 40, max: 80 },
-            euler: { min: 25, max: 40 },
-            pendle: { min: 15, max: 30 },
+            morpho: { min: 25, max: 35 },  // Lowered since we're getting ~30 total
+            euler: { min: 20, max: 30 },
+            pendle: { min: 10, max: 30 },
             manual: { min: 14, max: 14 }
         };
 

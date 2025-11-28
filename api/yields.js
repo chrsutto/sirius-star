@@ -66,18 +66,27 @@ async function fetchPendleYields() {
 
         if (data.results) {
           data.results
-            .filter(market => 
-              market.underlyingAsset.symbol.includes('USD') &&
-              market.totalActiveLiquidity > 100000  // $100K+ TVL filter
-            )
+            .filter(market => {
+              // More flexible filtering - accept if symbol contains USD or if it's a stablecoin
+              const symbol = market.underlyingAsset?.symbol || market.pt?.symbol || '';
+              const hasUSD = symbol.toUpperCase().includes('USD') || 
+                             symbol.toUpperCase().includes('DAI') ||
+                             symbol.toUpperCase().includes('USDC') ||
+                             symbol.toUpperCase().includes('USDT');
+              
+              // Lower TVL requirement to $10K to catch more markets
+              const hasLiquidity = (market.totalActiveLiquidity || 0) > 10000;
+              
+              return hasUSD && hasLiquidity;
+            })
             .slice(0, 20)  // Increased from 5 to 20
             .forEach(market => {
               allYields.push({
-                protocol: `Pendle ${market.pt.symbol}`,
-                stablecoin: market.underlyingAsset.symbol,
+                protocol: `Pendle ${market.pt?.symbol || market.symbol || 'Market'}`,
+                stablecoin: market.underlyingAsset?.symbol || 'USD',
                 chain: chain.name,
-                apy: parseFloat((market.impliedApy * 100).toFixed(2)),
-                tvl: market.totalActiveLiquidity,
+                apy: parseFloat(((market.impliedApy || 0) * 100).toFixed(2)),
+                tvl: market.totalActiveLiquidity || 0,
                 type: 'Fixed Yield',
                 source: 'pendle',
                 maturity: market.expiry,
@@ -132,12 +141,10 @@ async function fetchMorphoVaults() {
       return [];
     }
     
-    // Expanded stablecoin filter
-    const stablecoins = ['USDC', 'USDT', 'DAI', 'USDS', 'PYUSD', 'FRAX', 'LUSD', 'GUSD', 'USDC.e'];
-    
+    // All Morpho vaults are curated and whitelisted, so we can include all of them
+    // Just filter by TVL to exclude very small vaults
     return data.data.vaultV2s.items
       .filter(v => v.totalAssetsUsd > 100000)  // $100K+ TVL filter
-      .filter(v => stablecoins.includes(v.asset.symbol))
       .map(v => ({
         protocol: v.name,
         stablecoin: v.asset.symbol,
