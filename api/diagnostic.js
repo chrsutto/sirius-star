@@ -91,10 +91,10 @@ export default function handler(req, res) {
     <script>
         const expected = {
             defiLlama: { min: 40, max: 50 },
-            morpho: { min: 25, max: 35 },  // Lowered since we're getting ~30 total
+            morpho: { min: 25, max: 35 },
             euler: { min: 20, max: 30 },
             pendle: { min: 10, max: 30 },
-            manual: { min: 14, max: 14 }
+            manual: { min: 24, max: 24 }  // Updated: added all Spark products (Savings + SparkLend)
         };
 
         let rawData = null;
