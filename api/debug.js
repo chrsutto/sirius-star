@@ -120,7 +120,7 @@ async function testAPIs() {
   }
 
   // Manual data count
-  results.manual = { status: 'success', count: 24 };
+  results.manual = { status: 'success', count: 27 };
 
   // Calculate totals
   const summary = {

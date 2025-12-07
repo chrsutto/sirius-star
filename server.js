@@ -483,6 +483,44 @@ function getManualYieldData() {
       updatedAt: new Date().toISOString()
     },
     
+    // Monad Ecosystem (New L1, launched Nov 24, 2025)
+    {
+      protocol: 'Morpho AUSD (Monad)',
+      stablecoin: 'AUSD',
+      chain: 'Monad',
+      apy: 4.5,
+      tvl: 70000000,
+      type: 'Lending',
+      source: 'monad',
+      description: '🆕 NEW CHAIN - Supply AUSD to Morpho on Monad. Yields include MON token incentives. High-risk early ecosystem.',
+      url: 'https://app.monad.xyz',
+      updatedAt: new Date().toISOString()
+    },
+    {
+      protocol: 'Morpho USDC (Monad)',
+      stablecoin: 'USDC',
+      chain: 'Monad',
+      apy: 5.98,
+      tvl: 50000000,
+      type: 'Lending',
+      source: 'monad',
+      description: '🆕 NEW CHAIN - Supply USDC to Morpho on Monad. Yields include MON token incentives. High-risk early ecosystem.',
+      url: 'https://app.monad.xyz',
+      updatedAt: new Date().toISOString()
+    },
+    {
+      protocol: 'Upshift earnAUSD (Monad)',
+      stablecoin: 'AUSD',
+      chain: 'Monad',
+      apy: 6.5,
+      tvl: 5000000,
+      type: 'Yield Vault',
+      source: 'monad',
+      description: '🆕 NEW CHAIN - Liquid yield token deploying AUSD across delta-neutral strategies on Monad. $25M cap. Early ecosystem.',
+      url: 'https://app.upshift.finance',
+      updatedAt: new Date().toISOString()
+    },
+    
     // Midas Protocol
     {
       protocol: 'Midas mTBILL',

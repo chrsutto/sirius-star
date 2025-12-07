@@ -94,7 +94,7 @@ export default function handler(req, res) {
             morpho: { min: 25, max: 35 },
             euler: { min: 20, max: 30 },
             pendle: { min: 10, max: 30 },
-            manual: { min: 24, max: 24 }  // Updated: added all Spark products (Savings + SparkLend)
+            manual: { min: 27, max: 27 }  // Updated: added Monad ecosystem (3 products)
         };
 
         let rawData = null;
